@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="no">
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <title>LEADERBOARD - BETA Quiz</title>
+    <meta http-equiv='refresh' content='10'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="BETA" class="logo-img">
+            <h1>QUIZ LEADERBOARD</h1>
+        </div>
+        
+        <!-- Top 3 Teams Table -->
+        <div class="top-teams leaderboard-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Team</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data[:3] %}
+                    <tr>
+                        <td>{{ row.rank }}</td>
+                        <td>{{ row.team }}</td>
+                        <td>{{ row.points }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Remaining Teams Split into Two Tables -->
+        <div class="remaining-teams">
+            {% set split_point = (data|length - 3) // 2 %}
+            <div class="table-left leaderboard-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data[3:3 + split_point] %}
+                        <tr>
+                            <td>{{ row.rank }}</td>
+                            <td>{{ row.team }}</td>
+                            <td>{{ row.points }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-right leaderboard-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data[3 + split_point:] %}
+                        <tr>
+                            <td>{{ row.rank }}</td>
+                            <td>{{ row.team }}</td>
+                            <td>{{ row.points }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <span class="pulse"></span>Oppdateres automatisk hvert 10. sekund
+        </div>
+    </div>
+</body>
+</html>
